@@ -12,12 +12,8 @@ export class App extends Component {
   };
 
   handleFeedback = event => {
-    const name = event.target.name;
-    this.setState(prevState => {
-      return {
-        [name]: prevState[name] + 1,
-      };
-    });
+    const {name} = event.target;
+    this.setState(prevState => ({[name]: prevState[name] + 1}));
   };
 
   countTotalFeedback() {
@@ -37,15 +33,7 @@ export class App extends Component {
       <div>
         <Section title="Please leave feedback">
           <FeedbackOptions
-            options="good"
-            onLeaveFeedback={this.handleFeedback}
-          />
-          <FeedbackOptions
-            options="neutral"
-            onLeaveFeedback={this.handleFeedback}
-          />
-          <FeedbackOptions
-            options="bad"
+            options  = {Object.keys(this.state)}
             onLeaveFeedback={this.handleFeedback}
           />
         </Section>
@@ -55,11 +43,10 @@ export class App extends Component {
               good={good}
               neutral={neutral}
               bad={bad}
-              total={this.countTotalFeedback()}
-              percent={total ? this.countPositiveFeedbackPercentage() : 0}
+              total={total}
+              percent={this.countPositiveFeedbackPercentage()}
             />
-          ) : null}
-          {total > 0 ? null : <Notification message="There is no feedback" />}
+          ) : <Notification message="There is no feedback" />}
         </Section>
       </div>
     );
